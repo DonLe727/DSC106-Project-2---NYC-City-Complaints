@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <title>Project 2 Report</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
         <style>
             :root {
                 --color-neutral-95: hsl(220 10% 95%);
@@ -158,17 +159,197 @@
                 <h3>FOR the Proposition</h3>
 
                 <figure>
-                    <img src="IMAGE_FILENAME" alt="" />
-                    <figcaption>BRIEF CAPTION HERE.</figcaption>
+                    <div id="vis-for" style="width: 100%;"></div>
+                    <figcaption>Complaints and total allegations against NYPD binned into 4-year periods (1990–2013).</figcaption>
                 </figure>
 
                 <p>Design Decisions and Rationale:</p>
 
                 <ul>
-                    <li>RATIONALE_1</li>
-                    <li>RATIONALE_2</li>
-                    <li>RATIONALE_3</li>
+                    <li>Grouping data into 4-year electoral intervals (Deception Score: -1)</li>
+                    <p>While arranging to data into election cycles is arguably the best layout in a visualization thats critisizing a mayors actions during his term, I personally only made this design desicion in order to obscure the fact that the consistent upward trend for complaints began in 1999 (This would have been revealed in a line chart). Ultimately, I don't see this being too deceptive since Bloomberg was in office for 12 years and the trend never really went down while he was there.</p>
+
+                    <li>Highlighting Bloombergs time in office (Deception Score: 1)</li>
+                    <p>I highlighted the timeframe where Bloomberg was in office as the mayor of New York City. This helps bring the viewers attention right where I want it, and it helps viewers who didin't know when Bloomberg was in office interpret the timeframe. I think this is an earnest addition to the visual since it makes the it take less effort to interpret and prevents someone from losing intrest since they cant tell when Bloomberg was mayor.</p>
+
+                    <li>Adding Allegations (Deception Score: -1.5)</li>
+                    <p>Noteably Allegations is not mentioned in the title. Every complaint has allegations, but there can be multiple allegations per complaint. Adding allegations greatly increased the magnitude of the graph and made diferences look more drastic. So adding allegations can make the increase in complaints seem bigger, especially for viewrs who skim and dont look at the legend. Overall, I think adding bars for allegations and not elaborating on that in the title, description or comments was pretty deceptive since it may alter viewers perception of the graph.</p>
+
+                    <li>Annotating the 2002 transition point (Deception Score: 0)</li>
+                    <p>This addition is earnest similarly to the highlight, in the sense that it helps add context for viewers lacking it and point them in the right direction. Where the pointer actually goes in the visual might arguably be deceptive. The pointer ends in the middle of the 2002 bin, but it's as if its landing on the allegations bar. I personally just found this to be the cleanest way to add the pointer, but one could argue this adds more emphasis on the already deceptive allegations bars.
                 </ul>
+
+                <script>
+                (function() {
+                    const margin = {top: 80, right: 30, bottom: 50, left: 60},
+                          width = 850 - margin.left - margin.right,
+                          height = 450 - margin.top - margin.bottom;
+
+                    const svg = d3.select("#vis-for")
+                      .append("svg")
+                        .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+                        .style("width", "100%")
+                        .style("height", "auto")
+                      .append("g")
+                        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                    // 1. Define Arrowhead Marker
+                    const defs = svg.append("defs");
+                    defs.append("marker")
+                        .attr("id", "arrow")
+                        .attr("viewBox", "0 0 10 10")
+                        .attr("refX", 6)
+                        .attr("refY", 5)
+                        .attr("markerWidth", 7)
+                        .attr("markerHeight", 7)
+                        .attr("orient", "auto-start-reverse")
+                      .append("path")
+                        .attr("d", "M 0 0 L 10 5 L 0 10 z")
+                        .attr("fill", "#e63946");
+
+                    d3.json("nypd_complaints_binned.json").then(data => {
+                        const periods = data.map(d => d.period);
+
+                        const x0 = d3.scaleBand().domain(periods).range([0, width]).padding(0.2);
+                        const x1 = d3.scaleBand().domain(['unique_complaints', 'total_allegations']).range([0, x0.bandwidth()]).padding(0.05);
+                        const y = d3.scaleLinear().domain([0, d3.max(data, d => d.total_allegations) * 1.25]).range([height, 0]);
+
+                        // Highlight Bloomberg Terms (2002–2013)
+                        svg.append("rect")
+                            .attr("x", x0("2002–2005") - 5)
+                            .attr("y", 0)
+                            .attr("width", (x0.bandwidth() * 3) + (x0.step() * 0.2 * 2) + 10)
+                            .attr("height", height)
+                            .attr("fill", "#fff3ed");
+
+                        // Gridlines & Axes
+                        svg.append("g").call(d3.axisLeft(y).tickSize(-width).tickFormat("")).attr("stroke-opacity", 0.15);
+                        svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x0));
+                        svg.append("g").call(d3.axisLeft(y));
+
+                        // Axis Labels
+                        svg.append("text").attr("x", width / 2).attr("y", height + 40).style("text-anchor", "middle").style("font-size", "11px").style("font-weight", "bold").text("4-Year Intervals (1990–2013)");
+                        svg.append("text").attr("transform", "rotate(-90)").attr("y", -45).attr("x", -height / 2).style("text-anchor", "middle").style("font-size", "11px").style("font-weight", "bold").text("Total Count Per 4-Year Period");
+
+                        // Render Grouped Bars
+                        const periodGroup = svg.selectAll(".g-period")
+                            .data(data).enter().append("g")
+                            .attr("transform", d => `translate(${x0(d.period)},0)`);
+
+                        periodGroup.append("rect")
+                            .attr("x", x1("unique_complaints"))
+                            .attr("y", d => y(d.unique_complaints))
+                            .attr("width", x1.bandwidth())
+                            .attr("height", d => height - y(d.unique_complaints))
+                            .attr("fill", "#1d3557");
+
+                        periodGroup.append("rect")
+                            .attr("x", x1("total_allegations"))
+                            .attr("y", d => y(d.total_allegations))
+                            .attr("width", x1.bandwidth())
+                            .attr("height", d => height - y(d.total_allegations))
+                            .attr("fill", "#e63946");
+
+                        // Legend
+                        const legend = svg.append("g")
+                            .attr("transform", "translate(10, 10)");
+
+                        // Unique Complaints legend item
+                        legend.append("rect")
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .attr("width", 14)
+                            .attr("height", 14)
+                            .attr("fill", "#1d3557");
+
+                        legend.append("text")
+                            .attr("x", 20)
+                            .attr("y", 11)
+                            .style("font-size", "11px")
+                            .style("font-weight", "bold")
+                            .style("fill", "#1d3557")
+                            .text("Unique Complaints");
+
+                        // Total Allegations legend item
+                        legend.append("rect")
+                            .attr("x", 0)
+                            .attr("y", 22)
+                            .attr("width", 14)
+                            .attr("height", 14)
+                            .attr("fill", "#e63946");
+
+                        legend.append("text")
+                            .attr("x", 20)
+                            .attr("y", 33)
+                            .style("font-size", "11px")
+                            .style("font-weight", "bold")
+                            .style("fill", "#e63946")
+                            .text("Total Allegations");
+
+                        // Title & Subtitle Centered to Axes
+                        svg.append("text")
+                            .attr("x", width / 2)
+                            .attr("y", -50)
+                            .attr("text-anchor", "middle")
+                            .style("font-size", "14px")
+                            .style("font-weight", "bold")
+                            .style("fill", "#000")
+                            .text("Complaints Against NYPD Explode After Bloomberg Takes Office");
+
+                        svg.append("text")
+                            .attr("x", width / 2)
+                            .attr("y", -30)
+                            .attr("text-anchor", "middle")
+                            .style("font-size", "9.5px")
+                            .style("fill", "#555")
+                            .text("After taking office, Bloomberg heavily expanded on the city's \"Stop-and-Frisk\" policing style");
+
+                        svg.append("text")
+                            .attr("x", width / 2)
+                            .attr("y", -18)
+                            .attr("text-anchor", "middle")
+                            .style("font-size", "9.5px")
+                            .style("fill", "#555")
+                            .text("which is accused of causing an increase in racial profiling and unnecessary stops.");
+
+                        // Comment Box Position
+                        const targetBarData = data.find(d => d.period === "2002–2005");
+                        const targetBarYVal = targetBarData ? targetBarData.total_allegations : 3670;
+
+                        const annX = x0("1990–1993") + 100;
+                        const annY = y(targetBarYVal) - 20;
+
+                        const ann = svg.append("g").attr("transform", `translate(${annX}, ${annY})`);
+
+                        ann.append("rect")
+                            .attr("width", 240)
+                            .attr("height", 44)
+                            .attr("rx", 5)
+                            .attr("fill", "#ffffff")
+                            .attr("stroke", "#e63946")
+                            .attr("stroke-width", 1.5);
+
+                        ann.append("text").attr("x", 10).attr("y", 18).attr("fill", "#1d3557").style("font-size", "10.5px").style("font-weight", "bold").text("2002: Michael Bloomberg takes office");
+                        ann.append("text").attr("x", 10).attr("y", 33).attr("fill", "#1d3557").style("font-size", "10.5px").style("font-weight", "bold").text('& expands "Stop-and-Frisk"');
+
+                        // Curved Red Arrow from Box right edge to 2002-2005 bar
+                        const arrowStartX = annX + 240;
+                        const arrowStartY = annY + 22;
+                        const arrowEndX = x0("2002–2005") + 45;
+                        const arrowEndY = y(2500);
+
+                        const controlX = (arrowStartX + arrowEndX) / 2;
+                        const controlY = arrowStartY + 15;
+
+                        svg.append("path")
+                            .attr("d", `M ${arrowStartX} ${arrowStartY} Q ${controlX} ${controlY} ${arrowEndX} ${arrowEndY}`)
+                            .attr("fill", "none")
+                            .attr("stroke", "#e63946")
+                            .attr("stroke-width", 2)
+                            .attr("marker-end", "url(#arrow)");
+                    });
+                })();
+                </script>
             </section>
 
             <section>
