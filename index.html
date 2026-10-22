@@ -220,14 +220,14 @@
 
                 <figure>
                     <div id="vis-for" style="width: 100%;"></div>
-                    <figcaption>Complaints and total allegations against NYPD binned into 4-year periods (1990–2013).</figcaption>
+                    <figcaption>Complaints and total allegations against the NYPD binned into 4-year periods (1990–2013).</figcaption>
                 </figure>
 
                 <p>Design Decisions and Rationale:</p>
 
                 <ul>
                     <li>Grouping data into 4-year electoral intervals (Deception Score: -1)</li>
-                    <p>While arranging to data into election cycles is arguably the best layout in a visualization thats critisizing a mayors actions during his term, I personally only made this design desicion in order to obscure the fact that the consistent upward trend for complaints began in 1999 (This would have been revealed in a line chart). Ultimately, I don't see this being too deceptive since Bloomberg was in office for 12 years and the trend never really went down while he was there.</p>
+                    <p>While arranging to data into election cycles is arguably the best layout in a visualization thats criticizing a mayors actions during his term, I personally only made this design desicion in order to obscure the fact that the consistent upward trend for complaints began in 1999 (This would have been revealed in a line chart). Ultimately, I don't see this being too deceptive since Bloomberg was in office for 12 years and the trend never really went down while he was there.</p>
 
                     <li>Highlighting Bloombergs time in office (Deception Score: 1)</li>
                     <p>I highlighted the timeframe where Bloomberg was in office as the mayor of New York City. This helps bring the viewers attention right where I want it, and it helps viewers who didin't know when Bloomberg was in office interpret the timeframe. I think this is an earnest addition to the visual since it makes the it take less effort to interpret and prevents someone from losing intrest since they cant tell when Bloomberg was mayor.</p>
@@ -425,9 +425,9 @@
                 <ul>
                     <li>Choosing Complaints per 1000 stops (Deception Score: -1.5)</li>
                     <p>In contrast to the number of complaints in total, plotting the amount of complaints per 1000 stops allows us to invert the whole story by projecting the trend to be downwards instead of up. Thinking about it deeper, the implementation of the “Stop-and-Frisk” policy would naturally increase the number of stops, and consequently, increase the number of complaints. By measuring the proportion of complaints per 1000 stops, we are able to visualize that the ratio of complaints has actually decreased as Bloomberg stepped into office.</p>
-                    <li>Truncating the x-axis at the year 2011 rather than continuing straight through 2013. (Deception score -2)</li>
+                    <li>Truncating the x-axis at the year 2011 rather than continuing straight through 2013 (Deception score: -2)</li>
                     <p>Not shown on the current plot, from 2012-2013, the proportion of complaints suddenly skyrocketed, weakening our focus on our counter proposition (Complaint rates decreased). By only plotting from 2002, the year Bloomberg stepped into office, to 2011, we frame our illustration to a constant downtrend that strengthens our argument going against the original proposition.</p>
-                    <li>The arrow annotation from 2002 to 2011 showing a 60% decrease in complaint rate (Deception Score -1.5)</li>
+                    <li>The arrow annotation from 2002 to 2011 showing a 60% decrease in complaint rate (Deception Score: -1.5)</li>
                     <p>This is just a point to point overlay that visually shows how much complaint rates dropped from 2002 to 2011. This line does not tell the whole story of the graph. We picked the highest and lowest points of the plot to exaggerate how much complaint rates have fallen over two points of time. This line does not tell the fitted trendline; the data actually falls hard from 2002-2004, fluctuates but declines slightly from 2004-2011, but climbs back up from 2012-2013.</p>
                 </ul>
             </section>
@@ -435,7 +435,40 @@
             <section>
                 <h2>Final Reflection</h2>
 
-                <p>[WRITE FINAL REFLECTION PARAGRAPHS HERE.]</p>
+                <p>The overall design process of the first visualization was straightforward. 
+                    Our group agreed that the dataset presented a clear trend of overall allegations 
+                    against the NYPD increasing slightly before Bloomberg's mayoral term began (and throughout his term). 
+                    We researched this separately to find out what could have had a relationship with the increase in allegations. 
+                    The first visualization was much easier to create than the second one. We were able to use one main form of deception, 
+                    which was the red bars (total allegations) which makes our claim seem more severe than it actually is. We did not need 
+                    to do much data manipulation here compared to the second visualization. The second visualization was much harder to create
+                    due to clear evidence that unique complaints against the NYPD did in fact increase over time before leveling out. We had to 
+                    brainstorm many ways to oppose our proposition. We came up with some options such as looking at the number of complaints that 
+                    were unsubstantiated or cleared to demonstrate how complaints weren't necessarily all valid. However, we settled on 
+                    transforming the y-axis and keeping the x-axis the same as the first visualization. We made it so that our second visualization
+                    revolved around the complaint rate (number of complaints out of 1,000 police stops each year). We chose to purposefully leave 
+                    the data uncleaned and we also cut out some of the years on the x-axis that "disproved" our claim for this visualization. 
+                    We also chose to use more deceptive tactics in this visualization compared to the previous one.</p>
+
+                <p>What surprised us was how difficult 
+                    it was to create a data visualization that was sound in its reasoning and promoted an opposing viewpoint to what we originally 
+                    noticed in the data through EDA. We were surprised because we felt more guilty trying to create the second visualization than 
+                    we thought we would be when we started this project. We all believe that "ethical analysis and visualization" comes from earnestly 
+                    cleaning the data you choose to work with and refusing to assume things to be true without performing analyses, such as assuming that 
+                    missing values are missing for no reason. We agreed that data visualizations should not be fabricated and misrepresent the underlying 
+                    data. It is not ethical in any way to completely change datapoints or cut out certain datapoints to support your claims. Before, we did 
+                    not really understand how easy it was to manipulate data to support a claim that is twisted in its wording. These types of visualizations 
+                    can truly confuse your audience and make them believe in something that is not necessarily true.</p>
+
+                <p>The bounds to distinguish "acceptable" and "misleading" persuasive choices are quite arbitrary. Within our own group, some people believed 
+                    that aspects such as color were more persuasive compared to other things like captions and annotations. We believe that creating persuasive 
+                    data visualizations is mostly a subjective process, though there are some psychological concepts that one can follow to try and manipulate 
+                    their audience to the best of their abilities. For example, one of our original data visualizations was a layered bar chart across all years within 
+                    the dataset that demonstrated the differences in unique complaints made by Black, Hispanic, and White individuals. In this data visualization, 
+                    color tactics were employed to separate groups (Black and Hispanic labels were grouped together with differing shades of the same color while 
+                    White label was of the opposing color). This may seem acceptable to some people, but controversial to others. Overall, we learned that persuasive 
+                    techniques should be generally unoticeable unless a person spends a significant amount of time disecting your visualization. However, whether or not 
+                    certain persuasive techniques are acceptable is up to the person who creates the visualization and their audience.</p>
             </section>
         </main>
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"c822b88e119346678db149ed7b7721c9","r":1,"spa":2}' crossorigin="anonymous"></script>
