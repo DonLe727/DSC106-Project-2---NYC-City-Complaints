@@ -139,6 +139,46 @@
                     }
                 }
             }
+            
+            /* Keep visualization images inside their containers */
+            
+            figure img {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin: 0 auto;
+            }
+
+            /* Contributor names and emails */
+            .contributors {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+                margin-top: 1rem;
+            }
+            
+            .contributor {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .contributor strong {
+                font-size: 1rem;
+            }
+            
+            .contributor a {
+                font-size: 0.85rem;
+                color: var(--color-neutral-40);
+                text-decoration: none;
+            }
+            
+            .contributor a:hover {
+                text-decoration: underline;
+            }
+            
         </style>
     </head>
 
@@ -149,7 +189,27 @@
                 Persuasive or Deceptive Visualization?
             </h1>
 
-            <p><strong>Ricardo Campos Murillo, Yagnasri Chilukuri, Don Le, Roberto Echeverria Sosa</strong> — <em>rcamposmurillo@ucsd.edu, ychilukuri@ucsd.edu, dtl007@ucsd.edu, recheverriasosa@ucsd.edu</em></p>
+            <div class="contributors">
+                <div class="contributor">
+                    <strong>Ricardo Campos Murillo</strong>
+                    <a href="mailto:rcamposmurillo@ucsd.edu">rcamposmurillo@ucsd.edu</a>
+                </div>
+
+                <div class="contributor">
+                    <strong>Yagnasri Chilukuri</strong>
+                    <a href="mailto:ychilukuri@ucsd.edu">ychilukuri@ucsd.edu</a>
+                </div>
+
+                <div class="contributor">
+                    <strong>Don Le</strong>
+                    <a href="mailto:dtl007@ucsd.edu">dtl007@ucsd.edu</a>
+                </div>
+                
+                <div class="contributor">
+                    <strong>Roberto Echeverria Sosa</strong>
+                    <a href="mailto:recheverriasosa@ucsd.edu">recheverriasosa@ucsd.edu</a>
+                </div>
+            </div>
         </header>
 
         <main>
@@ -356,8 +416,8 @@
                 <h3>AGAINST the Proposition</h3>
 
                 <figure>
-                    <img src="images/vis_2_final.png" alt="Complaint Rate Per 1000 Stops" />
-                    <figcaption>The complaint RATE fell as stops escalated</figcaption>
+                    <img src="images/against_prop_vis.png" alt="NYPD Complaints per 1,000 Police Stops" style="max-width: 100%; height: auto;"/>
+                    <figcaption>Complaint rate against the NYPD throughout Bloomberg's mayoral administration (2002-2011).</figcaption>
                 </figure>
 
                 <p>Design Decisions and Rationale:</p>
